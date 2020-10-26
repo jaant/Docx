@@ -23,7 +23,7 @@ COMMENT_PROP_DEFS = dict(id = {'comment.id': int},
 
 LIST_PROP_DEFS = dict(list_id = {'abstractNum.abstractNumId': int},
                       list_level = {'abstractNum.lvl.ilvl': int},
-                      list_start = {'abstractNum.lvl.start.val': int},
+                      list_start = {'abstractNum.lvl.start.val': int, 'default': 1},
                       list_type = {'abstractNum.lvl.numFmt.val': str},
                       num_id = {'num.numId': int},
                       num_list_id = {'num.abstractNumId.val': int})
