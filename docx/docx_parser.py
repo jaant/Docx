@@ -146,7 +146,7 @@ def extract_comment_threads(src_path, hrefs, doc_spans):
     cstarts = {s.comment_start: idx for idx, s in enumerate(doc_spans) if s.xml_tag == 'commentRangeStart'}
     cranges = {s.comment_end: (cstarts[s.comment_end], idx) for idx, s in enumerate(doc_spans) if s.xml_tag == 'commentRangeEnd'}
     refs = {k: (doc_spans[i1].para_id, tuple(i for i in range(i0, i1) if doc_spans[i].xml_tag == 't')) for k, (i0, i1) in cranges.items()}
-    assert set(cstarts) == set(cranges) == set(refs) == set(range(sum(1 for s in doc_spans if s.xml_tag == 'commentRangeStart')))
+    assert set(cstarts) == set(cranges) == set(refs)
     Comment = collections.namedtuple('Comment', 'nr author datetime text_spans')
     set_href = lambda s: s._replace(href=hrefs[s.href]) if s.href else s
     text_spans = [set_href(s) for s in iter_doc_spans(src_path, 'comments.xml', COMMENT_PROP_DEFS, ('t', 'br'))]
