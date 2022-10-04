@@ -145,6 +145,9 @@ def extract_footnotes(src_path, hrefs, doc_spans, list_templates):
 def extract_comment_threads(src_path, hrefs, doc_spans):
     cstarts = {s.comment_start: idx for idx, s in enumerate(doc_spans) if s.xml_tag == 'commentRangeStart'}
     cranges = {s.comment_end: (cstarts[s.comment_end], idx) for idx, s in enumerate(doc_spans) if s.xml_tag == 'commentRangeEnd'}
+    assert all(i0 < i1 for i0, i1 in cranges.values())
+    if set(cstarts) > set(cranges):
+        cranges.update({k: (cstarts[k], cstarts[k]) for k in set(cstarts) - set(cranges)})
     refs = {k: (doc_spans[i1].para_id, tuple(i for i in range(i0, i1) if doc_spans[i].xml_tag == 't')) for k, (i0, i1) in cranges.items()}
     assert set(cstarts) == set(cranges) == set(refs)
     Comment = collections.namedtuple('Comment', 'nr author datetime text_spans')
